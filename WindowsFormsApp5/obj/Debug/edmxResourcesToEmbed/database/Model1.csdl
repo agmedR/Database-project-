@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="WareHouse2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Company">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Products" Relationship="Self.FK__Products__Compan__4BAC3F29" FromRole="Companies" ToRole="Products" />
+  </EntityType>
+  <EntityType Name="Export">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Pharmacy_Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Product_Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Pharmacy" Relationship="Self.FK__Exports__Pharmac__619B8048" FromRole="Exports" ToRole="Pharmacies" />
+    <NavigationProperty Name="Product" Relationship="Self.FK__Exports__Product__628FA481" FromRole="Exports" ToRole="Products" />
+  </EntityType>
+  <EntityType Name="Import">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Supplier_Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Product_Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Product" Relationship="Self.FK__Imports__Product__5DCAEF64" FromRole="Imports" ToRole="Products" />
+    <NavigationProperty Name="Supplier" Relationship="Self.FK__Imports__Supplie__5CD6CB2B" FromRole="Imports" ToRole="Suppliers" />
+  </EntityType>
+  <EntityType Name="Pharmacy">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Exports" Relationship="Self.FK__Exports__Pharmac__619B8048" FromRole="Pharmacies" ToRole="Exports" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Precision="8" Scale="2" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="Active_substance" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Production_Date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Expiration_Date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Company_Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Company" Relationship="Self.FK__Products__Compan__4BAC3F29" FromRole="Products" ToRole="Companies" />
+    <NavigationProperty Name="Exports" Relationship="Self.FK__Exports__Product__628FA481" FromRole="Products" ToRole="Exports" />
+    <NavigationProperty Name="Imports" Relationship="Self.FK__Imports__Product__5DCAEF64" FromRole="Products" ToRole="Imports" />
+  </EntityType>
+  <EntityType Name="Supplier">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Phone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Imports" Relationship="Self.FK__Imports__Supplie__5CD6CB2B" FromRole="Suppliers" ToRole="Imports" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="UserName" />
+      <PropertyRef Name="Password" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Products__Compan__4BAC3F29">
+    <End Role="Companies" Type="Self.Company" Multiplicity="1" />
+    <End Role="Products" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Companies">
+        <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="Company_Code" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Exports__Pharmac__619B8048">
+    <End Role="Pharmacies" Type="Self.Pharmacy" Multiplicity="1" />
+    <End Role="Exports" Type="Self.Export" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pharmacies">
+        <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="Exports">
+        <PropertyRef Name="Pharmacy_Code" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Exports__Product__628FA481">
+    <End Role="Products" Type="Self.Product" Multiplicity="1" />
+    <End Role="Exports" Type="Self.Export" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="Exports">
+        <PropertyRef Name="Product_Code" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Imports__Product__5DCAEF64">
+    <End Role="Products" Type="Self.Product" Multiplicity="1" />
+    <End Role="Imports" Type="Self.Import" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="Imports">
+        <PropertyRef Name="Product_Code" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Imports__Supplie__5CD6CB2B">
+    <End Role="Suppliers" Type="Self.Supplier" Multiplicity="1" />
+    <End Role="Imports" Type="Self.Import" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Suppliers">
+        <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="Imports">
+        <PropertyRef Name="Supplier_Code" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="WareHouse2Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Companies" EntityType="Self.Company" />
+    <EntitySet Name="Exports" EntityType="Self.Export" />
+    <EntitySet Name="Imports" EntityType="Self.Import" />
+    <EntitySet Name="Pharmacies" EntityType="Self.Pharmacy" />
+    <EntitySet Name="Products" EntityType="Self.Product" />
+    <EntitySet Name="Suppliers" EntityType="Self.Supplier" />
+    <EntitySet Name="users" EntityType="Self.user" />
+    <AssociationSet Name="FK__Products__Compan__4BAC3F29" Association="Self.FK__Products__Compan__4BAC3F29">
+      <End Role="Companies" EntitySet="Companies" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Exports__Pharmac__619B8048" Association="Self.FK__Exports__Pharmac__619B8048">
+      <End Role="Pharmacies" EntitySet="Pharmacies" />
+      <End Role="Exports" EntitySet="Exports" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Exports__Product__628FA481" Association="Self.FK__Exports__Product__628FA481">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="Exports" EntitySet="Exports" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Imports__Product__5DCAEF64" Association="Self.FK__Imports__Product__5DCAEF64">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="Imports" EntitySet="Imports" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Imports__Supplie__5CD6CB2B" Association="Self.FK__Imports__Supplie__5CD6CB2B">
+      <End Role="Suppliers" EntitySet="Suppliers" />
+      <End Role="Imports" EntitySet="Imports" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
